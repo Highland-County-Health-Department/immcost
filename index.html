@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Immunization cost guide | Highland County Health Department</title>
+<style>
+:root{
+  --bg:#F7F9F8; --card:#FFFFFF; --ink:#1A2522; --muted:#55635F; --line:#D3DCD8;
+  --brand:#1F4B43; --brand-ink:#FFFFFF; --hover:#EEF4F1;
+  --vfc:#2B5C8F; --vfc-bg:#E6EEF7; --s317:#6A3D74; --s317-bg:#F1E8F3;
+  --priv:#8A5B0C; --priv-bg:#FBF0DC; --none:#55635F; --none-bg:#ECEFEE;
+  --err:#B3261E;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#121917; --card:#1A2320; --ink:#E6EEEB; --muted:#A3B2AD; --line:#33413D;
+    --brand:#7FC1AE; --brand-ink:#0E1513; --hover:#22302C;
+    --vfc:#9CC2EC; --vfc-bg:#1C2B3B; --s317:#D3A9DC; --s317-bg:#2C2030;
+    --priv:#EBC27A; --priv-bg:#33280F; --none:#B7C3BF; --none-bg:#25302D;
+    --err:#F2B8B5;
+    color-scheme: dark;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:17px;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 28px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+  border-bottom:3px solid var(--brand);padding-bottom:10px;margin-bottom:16px}
+header h1{font-size:1.25rem;margin:0;color:var(--brand);font-weight:700}
+header p{margin:0;color:var(--muted);font-size:.9rem}
+.trail{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;min-height:4px}
+.trail span{font-size:.82rem;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted);background:var(--card)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+h2{font-size:1.3rem;margin:0 0 6px;line-height:1.3}
+.help{color:var(--muted);margin:0 0 16px;font-size:.95rem}
+.opts{display:grid;gap:10px}
+.opts.grid3{grid-template-columns:repeat(3,1fr)}
+button.opt{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;
+  border:1.5px solid var(--line);border-radius:10px;padding:12px 16px;background:var(--card)}
+button.opt:hover{background:var(--hover);border-color:var(--brand)}
+button.opt:focus-visible,button.nav:focus-visible,label.chk:focus-within,input[type=search]:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.opt b{display:block;font-size:1.02rem}
+.opt small{display:block;color:var(--muted);font-size:.88rem;margin-top:2px}
+.refs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:16px}
+.ref{font-size:.9rem;color:var(--muted)}
+.ref strong{color:var(--ink)}
+.ref ul{margin:6px 0 0;padding-left:20px}
+.ref.no strong{color:var(--err)}
+.script{border-left:4px solid var(--brand);background:var(--hover);padding:12px 16px;margin:0 0 16px;font-size:1rem}
+.script p{margin:0 0 8px}.script p:last-child{margin:0}
+.nav-row{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+button.nav{font:inherit;font-size:.95rem;cursor:pointer;border-radius:8px;padding:8px 16px;
+  border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
+button.nav.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);font-weight:700}
+button.nav:disabled{opacity:.45;cursor:not-allowed}
+.tools{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:10px}
+input[type=search]{font:inherit;font-size:.95rem;padding:7px 10px;border:1.5px solid var(--line);border-radius:8px;
+  background:var(--card);color:var(--ink);min-width:0;flex:1 1 200px}
+.tablewrap{overflow-x:auto;max-height:430px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+thead th{position:sticky;top:0;background:var(--card);color:var(--muted);font-weight:600;font-size:.84rem;z-index:1}
+td.num,th.num{text-align:right;white-space:nowrap}
+td .sub{display:block;color:var(--muted);font-size:.8rem}
+label.chk{display:flex;gap:10px;align-items:center;cursor:pointer}
+label.chk input{width:20px;height:20px;flex:none;accent-color:var(--brand)}
+.empty{padding:14px;color:var(--muted)}
+.err{color:var(--err);font-size:.9rem;margin-top:8px;min-height:1.2em}
+.stock{border-radius:12px;padding:16px 18px;margin-bottom:16px;border:2px solid currentColor}
+.stock .k{font-size:.85rem;opacity:.85}
+.stock .v{font-size:1.7rem;font-weight:700;line-height:1.2}
+.stock.vfc{color:var(--vfc);background:var(--vfc-bg)}
+.stock.s317{color:var(--s317);background:var(--s317-bg)}
+.stock.priv{color:var(--priv);background:var(--priv-bg)}
+.stock.none{color:var(--none);background:var(--none-bg)}
+.res{display:grid;gap:14px}
+.res h3{font-size:.95rem;margin:0 0 4px;color:var(--muted);font-weight:600}
+.money{font-size:1.6rem;font-weight:700}
+.res ul{margin:0;padding-left:20px}
+.res p{margin:0}
+.lines{width:100%;font-size:.93rem}
+.lines td{padding:4px 0;border-bottom:1px dashed var(--line)}
+.lines tr.total td{font-weight:700;border-bottom:0;padding-top:8px}
+footer{margin-top:16px;color:var(--muted);font-size:.8rem;text-align:center}
+@media (max-width:480px){.wrap{padding:14px 10px 20px}.card{padding:16px}.opts.grid3{grid-template-columns:repeat(2,1fr)}}
+@media print{.nav-row,.trail{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Immunization cost guide</h1>
+    <p>Highland County Health Department front desk</p>
+  </header>
+  <div class="trail" id="trail" aria-label="Answers so far"></div>
+  <main class="card" id="main" aria-live="polite"></main>
+  <footer>Draft for HCHD staff review. Developed with Claude. No patient information is entered or saved.</footer>
+</div>
+<script>
+/* =====================================================================
+   SETTINGS: edit this block when policies, lists, or prices change.
+   ===================================================================== */
+const CONFIG = {
+  feeScheduleName: "2026 LPHSC Vaccine Fee Schedule, Q3 (updated 9/1/2026)",
+
+  // VFC and 317 admin fee charged to the patient
+  vfc317Admin: { first: 21, additional: 11 },
+  // Self-pay admin fee: paid in full today (75% column) vs billed later (full fee)
+  selfPayAdminToday:  { first: 21, additional: 11 },
+  selfPayAdminBilled: { first: 28, additional: 15 },
+
+  acceptedInsurance: [
+    "AARP Medicare", "Aetna", "Ambetter", "AmeriHealth Caritas", "Anthem BC/BS", "Buckeye",
+    "Bureau for Children with Medical Handicaps (BCMH)", "CareSource", "Cigna", "GEHA-ASA Aetna",
+    "Humana & Humana Healthy Horizons", "Medical Mutual", "Medicare / Medigold", "Meritain Health",
+    "Molina", "Ohio Medicaid", "Ohio PPO (SCOIC/Hillsboro City Schools)", "UMR",
+    "United Healthcare", "Wellcare by Allwell"
+  ],
+  notAcceptedInsurance: [
+    "Allied Benefit", "Golden Rule", "HealthShield/Multiplan", "Jericho Share", "Luminare (Trustmark)",
+    "MedBen", "National General", "Tricare", "USHealth", "VA"
+  ],
+  // Names that appear on Ohio Medicaid cards, so staff don't mistake them for private plans
+  medicaidCardNames: [
+    "Ohio Medicaid", "AmeriHealth Caritas", "Anthem Blue Cross and Blue Shield (Medicaid)", "Buckeye Health Plan",
+    "CareSource", "Humana Healthy Horizons", "Molina Healthcare", "UnitedHealthcare Community Plan"
+  ],
+
+  medicarePartBVaccines: "Flu, pneumococcal, COVID-19, hepatitis B",
+  medicareOtherExamples: "Shingles, Tdap, RSV, and most others",
+  transactRxVaccines: [
+    "Bexsero", "Cervarix", "Decavac", "Engerix-B", "Gardasil", "Havrix", "Heplisav-B", "Infanrix", "IPOL",
+    "IXCHIQ (vial)", "Ixiaro", "Jubbonti", "JYNNEOS", "Menactra", "Menomune", "MenQuadfi", "Menveo", "MMR-II",
+    "Prolia", "ProQuad", "RabAvert", "Reclast", "Recombivax HB", "Rocephin", "RSV vaccine", "Shingrix", "Tdap",
+    "Tenivac", "Td", "TICOVAC", "Trumenba", "Twinrix", "Typhim Vi", "Vaqta", "Varivax", "Vaxneuvance",
+    "VIMKUNYA", "Vivotif (oral capsules)", "YF-Vax"
+  ],
+
+  // Self-pay price list from the fee schedule.
+  // [HCPCS, vaccine, trade name, full fee (billed later), 75% (paid in full today), stocked, admin fee applies]
+  // "stocked" = rows highlighted on the fee schedule. Unstocked rows show only when staff tick "Show full fee schedule".
+  priceList: [
+    ["86580","TB skin test","Tubersol",20,15,true,false],
+    ["86580","TB skin test","Aplisol",20,15,false,false],
+    ["90380","RSV pediatric","Beyfortus",682,512,false,true],
+    ["90381","RSV pediatric","Beyfortus",682,512,false,true],
+    ["90382","RSV monoclonal","Enflonsia",634,476,false,true],
+    ["90593","Chikungunya","VIMKUNYA",412,309,false,true],
+    ["90616","mRNA influenza","mFLUSIVA",147,110,false,true],
+    ["90619","Meningococcal","MenQuadfi",200,150,false,true],
+    ["90620","Meningococcal","Bexsero",316,237,true,true],
+    ["90621","Meningococcal","Trumenba",239,179,false,true],
+    ["90623","Meningococcal","Penbraya",316,237,false,true],
+    ["90624","Meningococcal","Penmenvy",284,213,false,true],
+    ["90625","Cholera","Vaxchora",356,267,false,true],
+    ["90632","Hep A adult","Vaqta",112,84,false,true],
+    ["90632","Hep A adult","Havrix",118,89,true,true],
+    ["90633","Hep A ped/adol","Vaqta",45,34,false,true],
+    ["90633","Hep A ped/adol","Havrix",55,41,true,true],
+    ["90636","Hep A/Hep B","Twinrix",180,135,true,true],
+    ["90647","Hib","PedvaxHIB",45,34,false,true],
+    ["90648","Hib","ActHIB",35,26,true,true],
+    ["90648","Hib","Hiberix",42,32,false,true],
+    ["90651","HPV","Gardasil 9",469,352,true,true],
+    ["90653","Flu high dose","Fluad High Dose",140,105,false,true],
+    ["90656","Flu","Afluria TIV 36mos+ PFS",29,22,false,true],
+    ["90656","Flu","Fluarix TIV",29,22,true,true],
+    ["90656","Flu","Flulaval TIV",29,22,true,true],
+    ["90656","Flu","Fluzone TIV 0.5 mL PFS",29,22,false,true],
+    ["90657","Flu","Afluria TIV 6m-35m (0.25 mL)",29,22,false,true],
+    ["90657","Flu","Fluzone TIV 0.25 mL MDV",29,22,false,true],
+    ["90658","Flu","Afluria TIV 36mos+ MDV",29,22,false,true],
+    ["90658","Flu","Fluzone TIV 0.5 mL MDV",29,22,false,true],
+    ["90660","Flu","FluMist TIV",45,34,false,true],
+    ["90661","Flu","Flucelvax TIV PFS",74,56,false,true],
+    ["90662","Flu high dose","Fluzone High-Dose TIV",140,105,true,true],
+    ["90670","Pneumococcal","Prevnar 13",316,237,false,true],
+    ["90671","Pneumococcal 15","Vaxneuvance",320,240,false,true],
+    ["90673","Flu","Flublok TIV",140,105,true,true],
+    ["90675","Rabies","Imovax",592,444,false,true],
+    ["90675","Rabies","RabAvert",684,513,false,true],
+    ["90677","Pneumococcal","Prevnar 20",360,270,false,true],
+    ["90678","RSV adult","Abrysvo",414,311,false,true],
+    ["90679","RSV adult","Arexvy",412,309,false,true],
+    ["90680","Rotavirus","RotaTeq",137,103,true,true],
+    ["90681","Rotavirus","Rotarix",201,151,false,true],
+    ["90683","RSV adult","mRESVIA",260,195,false,true],
+    ["90684","Pneumococcal 21","Capvaxive",400,300,false,true],
+    ["90691","Typhoid","Typhim Vi",236,177,false,true],
+    ["90696","DTaP/polio","Quadracel",83,62,false,true],
+    ["90696","DTaP/polio","Kinrix",85,64,true,true],
+    ["90697","DTaP/IPV/Hib/Hep B","Vaxelis",190,143,true,true],
+    ["90698","DTaP/polio/Hib","Pentacel",129,97,false,true],
+    ["90700","DTaP","Daptacel",37,28,false,true],
+    ["90700","DTaP","Infanrix",39,29,true,true],
+    ["90707","MMR","MMR II",140,105,true,true],
+    ["90707","MMR","Priorix",132,99,false,true],
+    ["90710","MMRV","ProQuad",404,303,true,true],
+    ["90713","Polio","IPOL",53,40,true,true],
+    ["90714","Td","Tenivac",65,49,false,true],
+    ["90715","Tdap","Boostrix",66,50,true,true],
+    ["90715","Tdap","Adacel",65,49,false,true],
+    ["90716","Varicella","Varivax",274,206,true,true],
+    ["90717","Yellow fever","YF-VAX",374,281,false,true],
+    ["90723","DTaP/polio/Hep B","Pediarix",133,100,true,true],
+    ["90732","Pneumococcal","Pneumovax 23",171,128,false,true],
+    ["90734","Meningococcal","Menveo",222,167,true,true],
+    ["90738","Japanese encephalitis","IXIARO",547,410,false,true],
+    ["90739","Hep B adult 2-dose","Heplisav-B",219,164,false,true],
+    ["90744","Hep B ped/adol","Engerix-B",40,30,true,true],
+    ["90744","Hep B ped/adol","Recombivax HB",40,30,false,true],
+    ["90746","Hep B adult","Engerix-B",106,80,true,true],
+    ["90746","Hep B adult","Recombivax HB",106,80,false,true],
+    ["90750","Shingles","Shingrix",364,273,true,true],
+    ["91320","COVID-19 (12y+)","Comirnaty (Pfizer)",144,108,false,true],
+    ["91321","COVID-19 (6m-11y)","Spikevax (Moderna)",147,110,true,true],
+    ["91322","COVID-19 (12y+)","Spikevax (Moderna)",140,105,true,true],
+    ["91323","COVID-19 (12y+)","mNEXSPIKE (Moderna)",208,156,true,true],
+    ["91304","COVID-19 (12y+)","Nuvaxovid (Novavax)",170,128,false,true]
+  ]
+};
+/* ===================================================================== */
+const PRICES = CONFIG.priceList.map(([code, type, trade, billed, today, stocked, admin], i) =>
+  ({ i, code, type, trade, billed, today, stocked, admin }));
+const $ = id => document.getElementById(id);
+const money = n => "$" + Number(n).toFixed(2).replace(/\.00$/, "");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
+const feeFor = (sched, n) => n < 1 ? 0 : sched.first + sched.additional * (n - 1);
+
+/* State. "a" holds answers; "hist" lets Back restore earlier answers exactly. */
+const S = { step: "coverage", a: {}, hist: [], trail: [], picks: new Set(), showAll: false, filter: "" };
+
+function snapshot(){ S.hist.push({ step: S.step, a: { ...S.a }, trail: [...S.trail] }); }
+function go(next, patch, label){
+  snapshot();
+  Object.assign(S.a, patch || {});
+  if (label) S.trail.push(label);
+  S.step = next; render();
+}
+function back(){ const h = S.hist.pop(); if (!h) return; S.step = h.step; S.a = h.a; S.trail = h.trail; render(); }
+function restart(){ S.step = "coverage"; S.a = {}; S.hist = []; S.trail = []; S.picks = new Set(); S.showAll = false; S.filter = ""; render(); }
+
+/* Uninsured or underinsured: children go to VFC, adults to 317, after a stock check */
+function lowCoverage(patch, label){
+  snapshot();
+  Object.assign(S.a, patch || {});
+  if (label) S.trail.push(label);
+  S.a.prog = S.a.child ? "VFC" : "317";
+  S.step = "stock"; render();
+}
+function ageNext(child){
+  const label = child ? "Under 19" : "19 or older";
+  const c = S.a.cov;
+  if (c === "medicaid") return go("result", { child }, label);
+  if (c === "private")  return go("covers", { child }, label);
+  if (c === "uninsured") return lowCoverage({ child }, label);
+}
+
+const insuranceRefs = () => [
+  { title: "Accepted", items: CONFIG.acceptedInsurance },
+  { title: "Not accepted", items: CONFIG.notAcceptedInsurance, cls: "no" }
+];
+
+const STEPS = {
+  coverage: () => ({
+    title: "What coverage does the patient have today?",
+    help: "Ask to see every insurance card. Medicaid managed care cards can look like private insurance cards, so check the names below.",
+    options: [
+      { b: "Private or commercial insurance", s: "Employer or marketplace plan", f: () => go("network", { cov: "private" }, "Private insurance") },
+      { b: "Medicaid", s: "Includes Medicaid managed care plans", f: () => go("age", { cov: "medicaid" }, "Medicaid") },
+      { b: "Medicare", s: "Original Medicare or Medicare Advantage", f: () => go("mcvax", { cov: "medicare", child: false }, "Medicare") },
+      { b: "No insurance", s: "Uninsured", f: () => go("age", { cov: "uninsured" }, "Uninsured") }
+    ],
+    refs: [{ title: "Names on Ohio Medicaid cards", items: CONFIG.medicaidCardNames }]
+  }),
+  network: () => ({
+    title: S.a.cov === "medicare" ? "Is the Medicare Advantage plan on our accepted list?" : "Is the plan on our accepted insurance list?",
+    help: "Compare the card to the lists below.",
+    options: [
+      { b: "Yes, on the accepted list", f: () => S.a.cov === "medicare"
+          ? go("result", { net: "in" }, "Accepted plan")
+          : go("age", { net: "in" }, "Accepted plan") },
+      { b: "No, not accepted", f: () => go("script", { net: "out" }, "Not accepted") }
+    ],
+    refs: insuranceRefs()
+  }),
+  age: () => ({
+    title: "How old is the patient?",
+    options: [
+      { b: "Under 19", s: "Birth through 18 years", f: () => ageNext(true) },
+      { b: "19 or older", f: () => ageNext(false) }
+    ]
+  }),
+  covers: () => ({
+    title: "Does the patient's plan cover the vaccines needed today?",
+    help: "If the plan does not cover vaccines, the patient is underinsured.",
+    options: [
+      { b: "Yes, the plan covers vaccines", f: () => go("result", {}, "Plan covers vaccines") },
+      { b: "No, the plan does not cover vaccines", s: "Underinsured", f: () => lowCoverage({ underinsured: true }, "Underinsured") }
+    ]
+  }),
+  stock: () => {
+    const p = S.a.prog;
+    return {
+      title: `Are all the vaccines needed today available in our ${p} stock?`,
+      help: p === "VFC"
+        ? "VFC covers routine childhood vaccines. Travel vaccines and some others are not available through VFC."
+        : "Not every vaccine is carried under the 317 program. Check current 317 inventory.",
+      options: [
+        { b: `Yes, available as ${p}`, f: () => go("count", {}, `${p} stock available`) },
+        { b: `No, not available as ${p}`, s: "Patient may choose self-pay from private stock", f: () => go("selfpay", { selfpay: true }, `Not in ${p} stock`) }
+      ]
+    };
+  },
+  count: () => ({
+    title: "How many vaccines is the patient getting today?",
+    help: `Admin fee is ${money(CONFIG.vfc317Admin.first)} for the first vaccine and ${money(CONFIG.vfc317Admin.additional)} for each additional vaccine.`,
+    grid: true,
+    options: [1, 2, 3, 4, 5, 6].map(n => ({
+      b: plural(n, "vaccine"),
+      s: "Admin fee " + money(feeFor(CONFIG.vfc317Admin, n)),
+      f: () => go(S.a.prog === "VFC" ? "vfcpay" : "adultpay", { count: n }, plural(n, "vaccine"))
+    }))
+  }),
+  vfcpay: () => ({
+    title: `Can the family pay the ${money(feeFor(CONFIG.vfc317Admin, S.a.count))} admin fee today?`,
+    help: "If the family says they cannot pay, the fee is waived and the child still gets the vaccine. No proof is needed.",
+    options: [
+      { b: "Yes, able to pay", f: () => go("result", { waived: false }, "Able to pay fee") },
+      { b: "No, unable to pay", s: "Fee waived", f: () => go("result", { waived: true }, "Fee waived") }
+    ]
+  }),
+  adultpay: () => ({
+    title: `Can the patient pay the ${money(feeFor(CONFIG.vfc317Admin, S.a.count))} admin fee today?`,
+    help: "For 317 adults, the fee is only waived with a signed hardship letter.",
+    options: [
+      { b: "Yes, able to pay", f: () => go("result", { waived: false }, "Able to pay fee") },
+      { b: "No, unable to pay", f: () => go("hardship", {}, "Unable to pay fee") }
+    ]
+  }),
+  hardship: () => ({
+    title: "Will the patient complete a hardship letter?",
+    options: [
+      { b: "Yes, hardship letter completed", s: "Fee waived", f: () => go("result", { waived: true }, "Hardship letter") },
+      { b: "No hardship letter", s: "Fee is still due", f: () => go("result", { waived: false, noHardship: true }, "No hardship letter") }
+    ]
+  }),
+  mcvax: () => ({
+    title: "Which vaccine is the Medicare patient getting?",
+    options: [
+      { b: "A Part B vaccine", s: CONFIG.medicarePartBVaccines, f: () => go("advantage", { mc: "B" }, "Part B vaccine") },
+      { b: "Another vaccine", s: CONFIG.medicareOtherExamples, f: () => go("transact", { mc: "other" }, "Other vaccine") }
+    ]
+  }),
+  advantage: () => ({
+    title: "Does the patient have a Medicare Advantage plan?",
+    help: "Advantage plans are run by private insurers and have their own card.",
+    options: [
+      { b: "Yes, Medicare Advantage", s: "Advantage plan billed first, Medicare second", f: () => go("network", { adv: true }, "Medicare Advantage") },
+      { b: "No, original Medicare", f: () => go("supplement", { adv: false }, "Original Medicare") }
+    ]
+  }),
+  supplement: () => ({
+    title: "Does the patient have a supplemental plan?",
+    help: "Ask for the supplemental card. Medicare is billed first and the supplement is billed second.",
+    options: [
+      { b: "Yes, has a supplemental plan", f: () => go("result", { supp: true }, "Has supplement") },
+      { b: "No supplemental plan", f: () => go("result", { supp: false }, "No supplement") }
+    ]
+  }),
+  transact: () => ({
+    title: "Have the nurse run a TransactRx check before the vaccine",
+    help: "TransactRx shows whether the patient's Medicare coverage (Part D, Advantage, or supplement) pays for this vaccine. Do this before the patient is seen. What did TransactRx show?",
+    options: [
+      { b: "Covered", s: "Review any patient cost shown with the patient", f: () => go("result", { tx: "covered" }, "TransactRx: covered") },
+      { b: "Not covered", s: "Patient is underinsured for this vaccine", f: () => lowCoverage({ underinsured: true, tx: "not" }, "TransactRx: not covered") }
+    ],
+    refs: [{ title: "Vaccines processed through TransactRx", items: CONFIG.transactRxVaccines, cols: true }]
+  }),
+  script: () => ({
+    title: "Explain the cost to the patient",
+    help: "We can't bill a plan we don't accept, so the patient would pay our self-pay price. Read or paraphrase:",
+    script: [
+      "Just so you know, your insurance isn't one we're able to bill here at the health department. That means you'd pay our self-pay price for the vaccine.",
+      "If you go to a doctor's office or pharmacy that takes your insurance, your plan may cover more of it, and you could save money.",
+      "It's completely your call. We're glad to take care of you today if you'd like to get it here. If you pay in full today, the price is lower than if we bill you later."
+    ],
+    options: [
+      { b: "Patient wants the vaccine here today", s: "Self-pay, private stock", f: () => go("selfpay", { selfpay: true }, "Chose self-pay here") },
+      { b: "Patient will go where their insurance is accepted", f: () => go("result", { referred: true }, "Going elsewhere") }
+    ]
+  })
+};
+/* ---------- Rendering ---------- */
+function renderTrail(){ $("trail").innerHTML = S.trail.map(t => `<span>${esc(t)}</span>`).join(""); }
+function navRow(extra){
+  return `<div class="nav-row">
+    <button class="nav" type="button" data-act="back" ${S.hist.length ? "" : "disabled"}>Back</button>
+    ${extra || `<button class="nav" type="button" data-act="restart">Start over</button>`}
+  </div>`;
+}
+function wireNav(){
+  $("main").querySelectorAll("[data-act=back]").forEach(b => b.addEventListener("click", back));
+  $("main").querySelectorAll("[data-act=restart]").forEach(b => b.addEventListener("click", restart));
+}
+function refBlock(r){
+  return `<div class="ref ${r.cls || ""}${r.cols ? " cols" : ""}"><strong>${esc(r.title)}</strong><ul>${r.items.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
+}
+function focusTop(){
+  const h = $("main").querySelector("h2, .stock");
+  if (h && S.hist.length) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+}
+function render(){
+  renderTrail();
+  if (S.step === "selfpay") return renderSelfPay();
+  if (S.step === "paytime") return renderPayTime();
+  if (S.step === "result") return renderResult();
+  const d = STEPS[S.step]();
+  let h = `<h2>${esc(d.title)}</h2>`;
+  if (d.help) h += `<p class="help">${esc(d.help)}</p>`;
+  if (d.script) h += `<div class="script">${d.script.map(p => `<p>${esc(p)}</p>`).join("")}</div>`;
+  h += `<div class="opts${d.grid ? " grid3" : ""}">` + d.options.map((o, i) =>
+    `<button class="opt" type="button" data-i="${i}"><b>${esc(o.b)}</b>${o.s ? `<small>${esc(o.s)}</small>` : ""}</button>`).join("") + `</div>`;
+  if (d.refs) h += `<div class="refs">${d.refs.map(refBlock).join("")}</div>`;
+  h += navRow();
+  $("main").innerHTML = h;
+  $("main").querySelectorAll("button.opt").forEach(btn => btn.addEventListener("click", () => d.options[+btn.dataset.i].f()));
+  wireNav(); focusTop();
+}
+
+/* ---------- Self-pay vaccine picker ---------- */
+function visibleRows(){
+  const f = S.filter.trim().toLowerCase();
+  return PRICES.filter(p =>
+    (S.showAll || p.stocked || S.picks.has(p.i)) &&
+    (!f || (p.trade + " " + p.type + " " + p.code).toLowerCase().includes(f)));
+}
+function rowsHtml(){
+  const rows = visibleRows();
+  if (!rows.length) return `<tr><td colspan="3" class="empty">No vaccines match. ${S.showAll ? "" : "Tick “Show full fee schedule” to search everything."}</td></tr>`;
+  return rows.map(p => `<tr>
+    <td><label class="chk"><input type="checkbox" value="${p.i}" ${S.picks.has(p.i) ? "checked" : ""}>
+      <span>${esc(p.trade)}<span class="sub">${esc(p.type)}, ${p.code}${p.admin ? "" : ", no admin fee"}</span></span></label></td>
+    <td class="num">${money(p.today)}</td><td class="num">${money(p.billed)}</td></tr>`).join("");
+}
+function renderSelfPay(){
+  $("main").innerHTML = `<h2>Which vaccines is the patient getting?</h2>
+    <p class="help">Self-pay patients receive private stock. Prices are from the ${esc(CONFIG.feeScheduleName)}. The admin fee is added on the next screen.</p>
+    <div class="tools">
+      <input type="search" id="q" placeholder="Find a vaccine" aria-label="Find a vaccine" value="${esc(S.filter)}">
+      <label class="chk"><input type="checkbox" id="all" ${S.showAll ? "checked" : ""}> Show full fee schedule</label>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Vaccine</th><th class="num">Paid in full today</th><th class="num">Billed later</th></tr></thead>
+      <tbody id="rows">${rowsHtml()}</tbody></table></div>
+    <div class="err" id="err" role="alert"></div>
+    ${navRow(`<button class="nav primary" type="button" id="cont">Continue</button>`)}`;
+  const wireRows = () => $("rows").querySelectorAll("input[type=checkbox]").forEach(b => b.addEventListener("change", () => {
+    const i = +b.value; b.checked ? S.picks.add(i) : S.picks.delete(i); $("err").textContent = "";
+  }));
+  const redraw = () => { $("rows").innerHTML = rowsHtml(); wireRows(); };
+  wireRows();
+  $("q").addEventListener("input", e => { S.filter = e.target.value; redraw(); });
+  $("all").addEventListener("change", e => { S.showAll = e.target.checked; redraw(); });
+  $("cont").addEventListener("click", () => {
+    if (!S.picks.size) { $("err").textContent = "Check at least one vaccine to continue."; return; }
+    const picked = [...S.picks].sort((a, b) => a - b);
+    go("paytime", { picked }, plural(picked.length, "self-pay item"));
+  });
+  wireNav(); focusTop();
+}
+function selfPayTotals(){
+  const items = (S.a.picked || []).map(i => PRICES[i]);
+  const n = items.filter(p => p.admin).length;
+  const sum = k => items.reduce((s, p) => s + p[k], 0);
+  const adminToday = feeFor(CONFIG.selfPayAdminToday, n), adminBilled = feeFor(CONFIG.selfPayAdminBilled, n);
+  return { items, n, adminToday, adminBilled, today: sum("today") + adminToday, billed: sum("billed") + adminBilled };
+}
+function renderPayTime(){
+  const t = selfPayTotals();
+  $("main").innerHTML = `<h2>Will the patient pay in full today?</h2>
+    <p class="help">Paying in full at the time of service gets the 75% price. If billed later, the full price applies.</p>
+    <div class="opts">
+      <button class="opt" type="button" id="pt1"><b>Pay in full today: ${money(t.today)}</b><small>Includes ${money(t.adminToday)} admin fee</small></button>
+      <button class="opt" type="button" id="pt2"><b>Bill the patient later: ${money(t.billed)}</b><small>Includes ${money(t.adminBilled)} admin fee</small></button>
+    </div>${navRow()}`;
+  $("pt1").addEventListener("click", () => go("result", { payNow: true }, "Paying today"));
+  $("pt2").addEventListener("click", () => go("result", { payNow: false }, "Billed later"));
+  wireNav(); focusTop();
+}
+
+/* ---------- Result ---------- */
+function buildResult(){
+  const a = S.a;
+  const r = { stock: "", cls: "", collect: 0, collectNote: "", billTo: "", docs: [], notes: [], lines: null };
+  const insuredCards = () => {
+    if (a.cov === "medicare") r.docs.push("Front and back of Medicare card and any Advantage, Part D, or supplemental plan cards");
+    else if (a.cov === "private" || a.cov === "medicaid") r.docs.push("Front and back of insurance card");
+  };
+
+  if (a.referred) {
+    return { ...r, stock: "No vaccine given", cls: "none", collectNote: "Nothing to collect", billTo: "Nothing to bill",
+      notes: ["Patient chose to go where their insurance is accepted. Thank them and let them know they're welcome back."] };
+  }
+  if (a.selfpay) {
+    const t = selfPayTotals();
+    const k = a.payNow ? "today" : "billed";
+    r.stock = "Private stock"; r.cls = "priv";
+    r.collect = a.payNow ? t.today : 0;
+    r.collectNote = a.payNow ? "Paid in full at time of service (75% price)" : `Nothing today. Patient will be billed ${money(t.billed)} (full price).`;
+    r.billTo = a.payNow ? "Nothing to bill" : `Patient (self-pay), ${money(t.billed)}`;
+    r.lines = t.items.map(p => [`${p.trade} (${p.code})`, p[k]]);
+    if (t.n) r.lines.push([`Admin fee, ${plural(t.n, "vaccine")}`, a.payNow ? t.adminToday : t.adminBilled]);
+    r.lines.total = a.payNow ? t.today : t.billed;
+    r.docs.push("Self-pay price reviewed with patient");
+    if (a.tx === "not") r.docs.push("TransactRx check showing no coverage");
+    if (a.net === "out") r.notes.push("Patient was told their insurance isn't accepted here and chose to receive the vaccine anyway.");
+    if (a.prog) r.notes.push(`Vaccine not available in ${a.prog} stock, so private stock is used.`);
+    return r;
+  }
+  if (a.prog) {
+    const fee = feeFor(CONFIG.vfc317Admin, a.count);
+    r.stock = a.prog + " stock"; r.cls = a.prog === "VFC" ? "vfc" : "s317";
+    r.collect = a.waived ? 0 : fee;
+    r.collectNote = a.waived
+      ? `Admin fee of ${money(fee)} waived` + (a.prog === "317" ? " (hardship letter)" : " (family unable to pay)")
+      : `Admin fee for ${plural(a.count, "vaccine")}`;
+    r.billTo = "Nothing to bill";
+    r.docs.push(a.prog === "VFC" ? "VFC eligibility screening form" : "Adult 317 eligibility screening");
+    if (a.underinsured) insuredCards();
+    if (a.tx === "not") r.docs.push("TransactRx check showing no coverage");
+    if (a.prog === "317" && a.waived) r.docs.push("Signed hardship letter");
+    if (a.underinsured) r.notes.push(a.tx === "not"
+      ? "TransactRx showed no Medicare coverage for this vaccine, so the patient is underinsured."
+      : "Patient is underinsured: has insurance that does not cover vaccines.");
+    if (a.noHardship) r.notes.push("Without a hardship letter, the 317 admin fee cannot be waived.");
+    return r;
+  }
+  if (a.cov === "medicaid") {
+    r.stock = a.child ? "VFC stock" : "Private stock"; r.cls = a.child ? "vfc" : "priv";
+    r.collectNote = "Nothing collected from Medicaid patients";
+    r.billTo = a.child ? "Medicaid, admin fee only" : "Medicaid";
+    r.docs.push("Front and back of Medicaid card");
+    if (a.child) r.docs.push("VFC eligibility screening form");
+    return r;
+  }
+  if (a.cov === "medicare") {
+    r.stock = "Private stock"; r.cls = "priv";
+    r.collectNote = "Nothing collected from Medicare patients";
+    r.docs.push("Front and back of Medicare card");
+    if (a.mc === "B") {
+      if (a.adv) { r.billTo = "Medicare Advantage plan first, then Medicare second"; r.docs.push("Front and back of Medicare Advantage card"); }
+      else if (a.supp) { r.billTo = "Medicare Part B first, then supplemental plan second"; r.docs.push("Front and back of supplemental plan card"); }
+      else r.billTo = "Medicare Part B";
+    } else {
+      r.billTo = "Through TransactRx, to the plan it shows as covering the vaccine";
+      r.docs.push("Front and back of any Advantage, Part D, or supplemental plan card");
+      r.docs.push("TransactRx coverage check, done before the vaccine");
+      r.notes.push("Review any patient cost shown in TransactRx with the patient before giving the vaccine.");
+    }
+    return r;
+  }
+  if (a.cov === "private") {
+    r.stock = "Private stock"; r.cls = "priv";
+    r.collectNote = "Nothing collected from insured patients";
+    r.billTo = "Patient's private insurance";
+    r.docs.push("Front and back of insurance card");
+    return r;
+  }
+  return r;
+}
+function renderResult(){
+  const r = buildResult();
+  const lines = r.lines ? `<table class="lines">${r.lines.map(([l, v]) => `<tr><td>${esc(l)}</td><td class="num">${money(v)}</td></tr>`).join("")}
+      <tr class="total"><td>Total</td><td class="num">${money(r.lines.total)}</td></tr></table>` : "";
+  $("main").innerHTML = `
+    <div class="stock ${r.cls}"><div class="k">Pull from</div><div class="v">${esc(r.stock)}</div></div>
+    <div class="res">
+      <div><h3>Collect today</h3><div class="money">${money(r.collect)}</div><p>${esc(r.collectNote)}</p></div>
+      ${lines ? `<div><h3>Charges</h3>${lines}</div>` : ""}
+      <div><h3>Bill to</h3><p>${esc(r.billTo)}</p></div>
+      <div><h3>Documents to collect</h3>${r.docs.length ? `<ul>${r.docs.map(d => `<li>${esc(d)}</li>`).join("")}</ul>` : "<p>None</p>"}</div>
+      ${r.notes.length ? `<div><h3>Notes</h3><ul>${r.notes.map(n => `<li>${esc(n)}</li>`).join("")}</ul></div>` : ""}
+    </div>
+    ${navRow(`<button class="nav primary" type="button" data-act="restart">Start a new patient</button>`)}`;
+  wireNav(); focusTop();
+}
+
+render();
+</script>
+</body>
+</html>
